@@ -20,7 +20,19 @@ class Shop extends Component {
                                     <img src={logo} className="card-img-top" alt="" style={{ height: "200px" }} />
                                     <div className="card-body">
                                         <h5 className="card-title">{item.key}</h5><h5>Rs.{item.MRP}</h5>
-                                        <a href="#" className="btn btn-primary">Go somewhere</a>
+                                        <button
+                                            className="btn btn-primary mx-2"
+                                            onClick={() => this.props.sub(category, item)}
+                                        >
+                                            -
+                                        </button>
+                                        {item.amt}
+                                        <button
+                                            className="btn btn-primary mx-2"
+                                            onClick={() => this.props.add(category, item)}
+                                        >
+                                            +
+                                        </button>
                                     </div>
                                 </div>
                             )}

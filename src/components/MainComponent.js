@@ -24,6 +24,7 @@ class Main extends Component {
                         for (let j in result[i]) {
                             items.push({
                                 ...result[i][j],
+                                amt: 0,
                                 key: j
                             });
                         }
@@ -44,6 +45,29 @@ class Main extends Component {
             )
     }
 
+    subHandler = (category,item) => {
+        let categories = [...this.state.categories];
+        let index = categories.indexOf(category);
+        categories[index] = { ...category };
+        let index1 = categories[index].items.indexOf(item);
+        categories[index].items[index1] = { ...item };
+        categories[index].items[index1].amt = this.state.categories[index].items[index1].amt - 1;
+        if (categories[index].items[index1].amt === -1) {
+            categories[index].items[index1].amt = 0;
+        }
+        this.setState({ categories: categories });
+    }
+
+    addHandler = (category, item) => {
+        let categories = [...this.state.categories];
+        let index = categories.indexOf(category);
+        categories[index] = { ...category };
+        let index1 = categories[index].items.indexOf(item);
+        categories[index].items[index1] = { ...item };
+        categories[index].items[index1].amt = this.state.categories[index].items[index1].amt + 1;
+        this.setState({ categories: categories });
+    }
+
     render() { 
         let routes = (
             <Switch>
@@ -53,6 +77,8 @@ class Main extends Component {
                         loading={this.state.loading}
                         shop={this.props.shop}
                         categories={this.state.categories}
+                        add={this.addHandler}
+                        sub={this.subHandler}
                     />}
                 />
                 <Route path="/cart" component={Cart} />
