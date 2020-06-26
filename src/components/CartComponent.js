@@ -11,7 +11,20 @@ class Cart extends Component {
                         category.items.map(item =>
                             item.amt!==0
                                 ? <li key={item.key} className="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
-                                    {item.key} x {item.amt} 
+                                    {item.key} x {item.amt}
+                                    <button
+                                        className="btn btn-primary mx-2"
+                                        onClick={() => this.props.sub(category, item)}
+                                    >
+                                        <strong>-</strong>
+                                    </button>
+                                    <strong>{item.amt}</strong>
+                                    <button
+                                        className="btn btn-primary mx-2"
+                                        onClick={() => this.props.add(category, item)}
+                                    >
+                                        <strong>+</strong>
+                                    </button>
                                     <span className="badge badge-primary badge-pill">Rs.{item.MRP * item.amt}</span>
                                 </li>
                                 : null

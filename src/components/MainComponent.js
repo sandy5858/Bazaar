@@ -98,6 +98,8 @@ class Main extends Component {
                         categories={this.state.categories}
                         total_items={this.state.total_items}
                         total_price={this.state.total_price}
+                        add={this.addHandler}
+                        sub={this.subHandler}
                     />}
                 />
                 <Redirect to='/' />
