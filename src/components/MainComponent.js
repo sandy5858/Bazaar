@@ -9,7 +9,9 @@ class Main extends Component {
         loading: true,
         shop: null,
         error: null,
-        categories: []
+        categories: [],
+        total_price: 0,
+        total_items: 0
     }
     
     componentDidMount() {
@@ -52,10 +54,14 @@ class Main extends Component {
         let index1 = categories[index].items.indexOf(item);
         categories[index].items[index1] = { ...item };
         categories[index].items[index1].amt = this.state.categories[index].items[index1].amt - 1;
+        let total_price = this.state.total_price - item.MRP;
+        let total_items = this.state.total_items - 1;
         if (categories[index].items[index1].amt === -1) {
             categories[index].items[index1].amt = 0;
+            total_price = total_price + item.MRP;
+            total_items = total_items + 1;
         }
-        this.setState({ categories: categories });
+        this.setState({ categories: categories, total_price: total_price, total_items: total_items });
     }
 
     addHandler = (category, item) => {
@@ -65,7 +71,9 @@ class Main extends Component {
         let index1 = categories[index].items.indexOf(item);
         categories[index].items[index1] = { ...item };
         categories[index].items[index1].amt = this.state.categories[index].items[index1].amt + 1;
-        this.setState({ categories: categories });
+        let total_price = this.state.total_price + item.MRP;
+        let total_items = this.state.total_items + 1;
+        this.setState({ categories: categories, total_price: total_price, total_items: total_items });
     }
 
     render() { 
@@ -77,11 +85,21 @@ class Main extends Component {
                         loading={this.state.loading}
                         shop={this.props.shop}
                         categories={this.state.categories}
+                        total_items={this.state.total_items}
                         add={this.addHandler}
                         sub={this.subHandler}
                     />}
                 />
-                <Route path="/cart" component={Cart} />
+                <Route path="/cart" render={(props) =>
+                    <Cart
+                        {...props}
+                        loading={this.state.loading}
+                        shop={this.props.shop}
+                        categories={this.state.categories}
+                        total_items={this.state.total_items}
+                        total_price={this.state.total_price}
+                    />}
+                />
                 <Redirect to='/' />
             </Switch>
         );
