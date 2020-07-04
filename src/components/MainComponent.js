@@ -6,6 +6,9 @@ import Cart from './CartComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
+import Register from './RegisterComponent';
+import Login from './LoginComponent';
+import Logout from './LogoutComponent';
 
 class Main extends Component {
     state = { 
@@ -14,10 +17,15 @@ class Main extends Component {
         error: null,
         categories: [],
         total_price: 0,
-        total_items: 0
+        total_items: 0,
+        user: null,
+        refreshToken: null,
+        loggedin: false
     }
     
+
     componentDidMount() {
+        this.checkAuthStatus();
         fetch("https://bazaar-87064.firebaseio.com/Shop.json")
             .then(res => res.json())
             .then(
@@ -79,40 +87,74 @@ class Main extends Component {
         this.setState({ categories: categories, total_price: total_price, total_items: total_items });
     }
 
+    checkAuthStatus = () => {
+        let refreshToken = localStorage.getItem('refreshToken');
+        if (refreshToken !== null) {
+            this.setState({ loggedin: true, refreshToken: refreshToken });
+        }
+    }
+
+    logoutHandler = () => {
+        this.setState({ user: null, refreshToken: null, loggedin: false });
+    }
+
     render() { 
         let routes = (
             <Switch>
                 <Route path="/" exact component={() => <Home />} />
-                <Route path="/products" exact render={(props) =>
-                    <Shop
-                        {...props}
-                        loading={this.state.loading}
-                        shop={this.props.shop}
-                        categories={this.state.categories}
-                        total_items={this.state.total_items}
-                        add={this.addHandler}
-                        sub={this.subHandler}
-                    />}
-                />
                 <Route exact path="/contactus" component={Contact} />
-                <Route path="/cart" render={(props) =>
-                    <Cart
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" render={(props) =>
+                    <Login
                         {...props}
-                        loading={this.state.loading}
-                        shop={this.props.shop}
-                        categories={this.state.categories}
-                        total_items={this.state.total_items}
-                        total_price={this.state.total_price}
-                        add={this.addHandler}
-                        sub={this.subHandler}
+                        checkAuthStatus={this.checkAuthStatus}
                     />}
                 />
                 <Redirect to='/' />
             </Switch>
         );
+        if (this.state.loggedin) {
+            //console.log("huha1");
+            routes = (
+                <Switch>
+                    <Route path="/" exact component={() => <Home />} />
+                    <Route path="/products" exact render={(props) =>
+                        <Shop
+                            {...props}
+                            loading={this.state.loading}
+                            shop={this.props.shop}
+                            categories={this.state.categories}
+                            total_items={this.state.total_items}
+                            add={this.addHandler}
+                            sub={this.subHandler}
+                        />}
+                    />
+                    <Route path="/cart" exact render={(props) =>
+                        <Cart
+                            {...props}
+                            loading={this.state.loading}
+                            shop={this.props.shop}
+                            categories={this.state.categories}
+                            total_items={this.state.total_items}
+                            total_price={this.state.total_price}
+                            add={this.addHandler}
+                            sub={this.subHandler}
+                        />}
+                    />
+                    <Route exact path="/contactus" component={Contact} />
+                    <Route path="/logout" exact render={(props) =>
+                        <Logout
+                            {...props}
+                            logout={this.logoutHandler}
+                        />}
+                    />
+                    <Redirect to='/' />
+                </Switch>
+            );
+        }
         return (
             <div>
-                <Navbar />
+                <Navbar loggedin={this.state.loggedin} />
                 <main>
                     {routes}
                 </main>
