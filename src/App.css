@@ -1,2 +1,39 @@
-.App{
+.jumbotron {
+    padding:70px 30px 70px 30px;
+    margin:0px auto;
+    background: #fbe637 ;
+    color:floralwhite;
 }
+
+.row-header{
+    margin:0px auto;
+    padding:0px auto;
+    font-family: 'Modak', cursive;
+}
+
+.footer{
+    color: floralwhite;
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: indigo;
+}
+
+.newsletter{
+    color: floralwhite;
+    background-color: red;
+    font-family: 'Modak', cursive;
+    width: 100%;
+}
+
+.row-content {
+    margin:0px auto;
+    padding: 50px 0px 50px 0px;
+    border-bottom: 1px ridge;
+    min-height:400px;
+    padding-left: 50px;
+}
+
+.content{
+    padding-left: 80px;
+    padding-right: 80px;
+}
+

@@ -3,6 +3,9 @@ import Navbar from './NavbarComponent';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Shop from './ShopComponent';
 import Cart from './CartComponent';
+import Footer from './FooterComponent';
+import Home from './HomeComponent';
+import Contact from './ContactComponent';
 
 class Main extends Component {
     state = { 
@@ -15,7 +18,7 @@ class Main extends Component {
     }
     
     componentDidMount() {
-        fetch("https://bazaar-38a69.firebaseio.com/Shop.json")
+        fetch("https://bazaar-87064.firebaseio.com/Shop.json")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -50,7 +53,7 @@ class Main extends Component {
     subHandler = (category,item) => {
         let categories = [...this.state.categories];
         let index = categories.indexOf(category);
-        categories[index] = { ...category };
+        categories[index] = { ...category }; 
         let index1 = categories[index].items.indexOf(item);
         categories[index].items[index1] = { ...item };
         categories[index].items[index1].amt = this.state.categories[index].items[index1].amt - 1;
@@ -79,7 +82,8 @@ class Main extends Component {
     render() { 
         let routes = (
             <Switch>
-                <Route path="/" exact render={(props) =>
+                <Route path="/" exact component={() => <Home />} />
+                <Route path="/products" exact render={(props) =>
                     <Shop
                         {...props}
                         loading={this.state.loading}
@@ -90,6 +94,7 @@ class Main extends Component {
                         sub={this.subHandler}
                     />}
                 />
+                <Route exact path="/contactus" component={Contact} />
                 <Route path="/cart" render={(props) =>
                     <Cart
                         {...props}

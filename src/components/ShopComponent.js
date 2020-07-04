@@ -63,6 +63,8 @@ class Shop extends Component {
                 <div id="TOP"><br /><br /><br /></div>
                 <a href="#RICE" className="btn btn-outline-secondary mx-2" style={{ fontWeight: "bold" }}>RICE</a>
                 <a href="#DAL" className="btn btn-outline-secondary mx-2" style={{ fontWeight: "bold" }}>DAL</a>
+                <a href="#ATTA(FLOUR)" className="btn btn-outline-secondary mx-2" style={{ fontWeight: "bold" }}>ATTA(FLOUR)</a>
+                <a href="#SPICES" className="btn btn-outline-secondary mx-2" style={{ fontWeight: "bold" }}>SPICES</a>
                 {body}
             </div>
         );
