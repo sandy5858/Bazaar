@@ -9,6 +9,7 @@ import Contact from './ContactComponent';
 import Register from './RegisterComponent';
 import Login from './LoginComponent';
 import Logout from './LogoutComponent';
+import axios from 'axios';
 
 class Main extends Component {
     state = { 
@@ -89,7 +90,21 @@ class Main extends Component {
 
     checkAuthStatus = () => {
         let refreshToken = localStorage.getItem('refreshToken');
+        let user = localStorage.getItem('user');
         if (refreshToken !== null) {
+            let url = "https://bazaar-87064.firebaseio.com/Users.json";
+            const queryParams = '?orderBy="email"&equalTo="' + user + '"';
+            axios.get(url + queryParams)
+                .then(response => {
+                    //console.log(response);
+                    for (let i in response.data) {
+                        this.setState({ user: response.data[i] });
+                        break;
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             this.setState({ loggedin: true, refreshToken: refreshToken });
         }
     }
