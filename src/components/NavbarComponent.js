@@ -36,6 +36,9 @@ class Navbar extends Component {
                         <NavLink className="nav-link" to="/contactus" exact ><span className="fa fa-address-card fa-lg"></span><strong>Contact Us</strong></NavLink>
                     </li>
                     <li className="nav-item">
+                        <NavLink className="nav-link" to="/profile" exact ><span className="fa fa-user fa-lg"></span><strong>Profile</strong></NavLink>
+                    </li>
+                    <li className="nav-item">
                         <NavLink className="nav-link" to="/logout" exact ><span className="fa fa-sign-out fa-lg"></span><strong>Logout</strong></NavLink>
                     </li>
                 </ul>

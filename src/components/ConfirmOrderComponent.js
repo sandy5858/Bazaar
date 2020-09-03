@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom'; 
 
-class Cart extends Component {
-    state = { }
-    
-    render() { 
+class ConfirmOrder extends Component {
+    state = {  }
+    render() {
         let body = null;
         if (!this.props.loading) {
             body = (
@@ -15,18 +13,6 @@ class Cart extends Component {
                                 ? <li key={item.key} className="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
                                     <div>
                                         {item.key} x {item.amt}
-                                        <button
-                                            className="btn btn-primary mx-2"
-                                            onClick={() => this.props.sub(category, item)}
-                                        >
-                                            <strong>-</strong>
-                                        </button>
-                                        <button
-                                            className="btn btn-primary mx-2"
-                                            onClick={() => this.props.add(category, item)}
-                                        >
-                                            <strong>+</strong>
-                                        </button>
                                     </div>
                                     <span className="badge badge-primary badge-pill">Rs.{item.MRP * item.amt}</span>
                                 </li>
@@ -38,7 +24,7 @@ class Cart extends Component {
         }
         return (  
             <div className="container">
-                {this.props.total_items !== 0 ? <h3>Total number of items : {this.props.total_items}</h3> : null}
+                {this.props.total_items !== 0 ? <h5>Total number of items : {this.props.total_items}</h5> : null}
                 <ul className="list-group my-3">
                     {this.props.total_items !== 0
                         ? <strong>
@@ -48,7 +34,13 @@ class Cart extends Component {
                                 <span className="badge badge-primary badge-pill">Rs.{this.props.total_price}</span>
                             </li>
                             <br />
-                            <NavLink to="/order-info" exact className="btn btn-success">Proceed To Buy</NavLink>
+                            <i className="fa fa-envelope fa-lg"></i><strong>MAIL : </strong>{this.props.location.state.email}
+                            <br /><br />
+                            <i className="fa fa-phone fa-lg"></i><strong>PHONE : </strong>{this.props.location.state.phone}
+                            <br /><br />
+                            <i className="fa fa-map-marker fa-lg"></i><strong>ADDRESS : </strong>{this.props.location.state.address}
+                            <br /><br />
+                            <i className="fa fa-money fa-lg"></i><strong>PAYMENT METHOD : </strong>COD
                         </strong>
                         : <h1>YOUR SHOPPING CART IS EMPTY</h1>}
                 </ul>
@@ -57,4 +49,4 @@ class Cart extends Component {
     }
 }
  
-export default Cart;
+export default ConfirmOrder;

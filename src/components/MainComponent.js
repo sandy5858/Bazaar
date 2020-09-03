@@ -3,11 +3,14 @@ import Navbar from './NavbarComponent';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Shop from './ShopComponent';
 import Cart from './CartComponent';
+import OrdreInfo from './OrderInfoComponent';
+import ConfirmOrder from './ConfirmOrderComponent'
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
 import Register from './RegisterComponent';
 import Login from './LoginComponent';
+import Profile from './ProfileComponent';
 import Logout from './LogoutComponent';
 import axios from 'axios';
 
@@ -98,7 +101,11 @@ class Main extends Component {
                 .then(response => {
                     //console.log(response);
                     for (let i in response.data) {
-                        this.setState({ user: response.data[i] });
+                        let User = {
+                            ...response.data[i],
+                            userId: i
+                        }
+                        this.setState({ user: User });
                         break;
                     }
                 })
@@ -154,9 +161,32 @@ class Main extends Component {
                             total_price={this.state.total_price}
                             add={this.addHandler}
                             sub={this.subHandler}
+                            user={this.state.user}
+                        />}
+                    />
+                    <Route path="/order-info" exact render={(props) =>
+                        <OrdreInfo
+                            {...props}
+                            total_items={this.state.total_items}
+                            user={this.state.user}
+                        />}
+                    />
+                    <Route path="/confirm-order" exact render={(props) =>
+                        <ConfirmOrder
+                            {...props}
+                            loading={this.state.loading}
+                            categories={this.state.categories}
+                            total_items={this.state.total_items}
+                            total_price={this.state.total_price}
                         />}
                     />
                     <Route exact path="/contactus" component={Contact} />
+                    <Route path="/profile" exact render={(props) =>
+                        <Profile
+                            {...props}
+                            user={this.state.user}
+                        />}
+                    />
                     <Route path="/logout" exact render={(props) =>
                         <Logout
                             {...props}
